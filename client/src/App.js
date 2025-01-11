@@ -1,8 +1,15 @@
 import './App.css';
+import Post from './Post';
+import Header from './Header';
 
 function App() {
   return (
-    <div>Welcome to my Blog</div>
+     <main>
+      <Header/>
+      <Post />
+      <Post />
+      <Post/>
+         </main>
   );
 }
 
