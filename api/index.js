@@ -34,7 +34,11 @@ app.post('/login', async (req,res) => {
 
    jwt.sign({username,id:userDoc._id}, secret, {}, (err,token) =>{
       if(err) throw err;
-      res.cookie('token', token).json('ok');
+      res.cookie('token', token).json({
+         id:userDoc._id,
+         username,
+         
+      });
    })
    
    //res json();
@@ -54,12 +58,14 @@ app.get('/profile', (req,res) =>{
       res.json(info);
 
    });
-res.json(req.cookies);
+
 
 });
 
-
-app.listen(4000);
+app.post('/logout', (req,res) => {
+   res.cookie('token','').json('ok'); 
+})
+app.listen(4000); 
 
 //mongodb+srv://superblogger:ALCh7gbI5P04fq1m@cluster0.hjtdf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 //ALCh7gbI5P04fq1m 
