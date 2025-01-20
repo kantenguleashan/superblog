@@ -1,4 +1,5 @@
-export default function Post() {
+import { formatISO9075} from "date-fns";
+export default function Post({title,summary,cover,content,createdAt}) {
 
     return (
 
@@ -8,12 +9,12 @@ export default function Post() {
           </div>
   
    <div className="texts">
-    <h2> Ai Copiloting </h2>
+    <h2>{title}</h2>
     <p className="info"> 
-    <a className="author"> James Ethan</a> 
-    <time> 2024-01-06 16:00 </time>
+    <a className="author">James Ethan </a>
+    <time> {formatISO9075(new Date (createdAt))} </time>
     </p> 
-    <p className="summary"> you’re anything like me, you might have dismissed some of the new AI tooling as gimmicky. But since the recent announcement that GitHub Copilot is now free, I thought I’d give it a proper go — and boy am I glad I did! It’s so much more than glorified autocomplete; it’s become an integral part of my workflow and I’m not looking back anytime soon.</p>
+    <p className="summary"> {summary}</p>
    </div>
       </div>
 

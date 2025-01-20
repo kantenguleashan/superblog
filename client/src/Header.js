@@ -35,7 +35,7 @@ return (
         {username && (
             <> 
             <Link to="/create"> Create New Posts</Link>
-            <a onClick={logout}> Logout </a>
+            <a onClick={logout}>  Logout </a>
              </>
         )}
         {!username && (

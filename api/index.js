@@ -61,11 +61,7 @@ res.status(400).json('wrong credentials');
 
 app.get('/profile', (req,res) =>{
    const {token} = req.cookies;
-   jwt.verify(token, secret,{}, (err,info) =>{
-      if(err) throw err;
-      res.json(info);
-
-   });
+   
 
 
 });
@@ -82,16 +78,28 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
    const ext = parts[parts.length - 1];
    const newPath = path+'.'+ext;
    fs.renameSync(path,newPath);
-   const {title,summary,content} = req.body;
-  const postDoc= await Post.create({ 
-   title,
-   summary,
-   content,
-   cover:newPath,
+
+   const {token} = req.cookies;
+   jwt.verify(token, secret,{}, async (err,info) =>{
+      if(err) throw err;
+      const {title,summary,content} = req.body;
+      const postDoc= await Post.create({ 
+       title,
+       summary,
+       content,
+       cover:newPath,
+       author:info.id,
+       });  
+      res.json({postDoc});
+      
+   });
+   
+
    });
 
- res.json({postDoc});
-   });
+   app.get('/post', async (req,res) => {
+      res.json(await Post.find());
+   }); 
 
 app.listen(4000); 
 
