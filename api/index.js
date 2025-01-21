@@ -19,6 +19,8 @@ const secret = '123456qwerg';
 app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
 mongoose.connect('mongodb+srv://superblogger:ALCh7gbI5P04fq1m@cluster0.hjtdf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
 app.post('/register', async (req, res)=>{
@@ -29,6 +31,7 @@ try{const userDoc= await User.create({
 }); 
 res.json(userDoc);
 }catch(e){
+   console.log(e);
 res.status(400).json(e);
 }
 });
@@ -93,15 +96,21 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
       res.json({postDoc});
       
    });
+
    
-
    });
-
    app.get('/post', async (req,res) => {
-      res.json(await Post.find());
+      res.json(
+         await Post.find()
+         .populate('author', ['username'])
+      .sort({createdAt:-1})
+      .limit(20)
+      );
    }); 
 
+   
 app.listen(4000); 
 
 //mongodb+srv://superblogger:ALCh7gbI5P04fq1m@cluster0.hjtdf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 //ALCh7gbI5P04fq1m 
+
