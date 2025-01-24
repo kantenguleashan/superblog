@@ -30,7 +30,7 @@ export default function Header(){
     const username = userInfo?.username;
 return (
     <header>
-        <Link to="/" className="logo">My Blog</Link>
+        <Link to="/" className="logo">TechBlog</Link>
        <nav>
         {username && (
             <> 
